@@ -17,5 +17,8 @@
     "redis": "^4.7.0",
     "simple-git": "^3.27.0",
     "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17"
   }
 }
