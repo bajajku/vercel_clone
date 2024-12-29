@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import simpleGit from 'simple-git';
 import { generateRandomId } from './utils';
+import path from 'path';
 
 
 const app = express();
@@ -14,7 +15,12 @@ app.post("/deploy", async (req, res) => {
     // github url
     const repoUrl = req.body.repoUrl;
     const id = generateRandomId();
-    await simpleGit().clone(repoUrl, `./output/${id}`);
-    res.json({ message: "Deploying..." });
+    await simpleGit().clone(repoUrl, path.join(__dirname, `./output/${id}`));
+    res.json(
+        { 
+            id: id 
+        }
+    );
+
 })
 app.listen(3000);
