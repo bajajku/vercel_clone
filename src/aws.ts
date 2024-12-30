@@ -10,6 +10,21 @@ const s3 = new S3({
 });
 
 
-export const uploadFile = (fileName: string, localFilePath: string) => {
+export const uploadFile = async(fileName: string, localFilePath: string) => {
+
+    // this will synchronously read the entire file into memory
+    const fileContent = fs.readFileSync(localFilePath);
+
+    if (!process.env.AWS_BUCKET_NAME) {
+        throw new Error('AWS_BUCKET_NAME is not defined in the environment variables');
+    }
+
+    const response = await s3.upload({
+        Body: fileContent,
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: fileName,
+    }).promise();
+
+    console.log(response);
 
 }
