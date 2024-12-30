@@ -3,6 +3,8 @@ import cors from 'cors';
 import simpleGit from 'simple-git';
 import { generateRandomId } from './utils';
 import path from 'path';
+import { get } from 'http';
+import { getAllFiles } from './file';
 
 
 const app = express();
@@ -21,6 +23,11 @@ app.post("/deploy", async (req, res) => {
             id: id 
         }
     );
+
+    // extract all files from the cloned repo
+    const files = getAllFiles(path.join(__dirname, `./output/${id}`));
+
+
 
 })
 app.listen(3000);
