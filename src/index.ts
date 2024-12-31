@@ -23,11 +23,11 @@ app.post("/deploy", async (req, res) => {
     // github url
     const repoUrl = req.body.repoUrl;
     const id = generateRandomId();
-    await simpleGit().clone(repoUrl, path.join(__dirname, `./output/${id}`));
+    await simpleGit().clone(repoUrl, path.join(__dirname, `output/${id}`));
 
 
     // extract all files from the cloned repo
-    const files = getAllFiles(path.join(__dirname, `./output/${id}`));
+    const files = getAllFiles(path.join(__dirname, `output/${id}`));
     files.forEach(async (file) => {
         await uploadFile(file.slice(__dirname.length + 1), file);
     });
