@@ -53,7 +53,7 @@ dotenv.config();
 const s3 = new aws_sdk_1.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    endpoint: process.env.AWS_ENDPOINT,
+    endpoint: process.env.S3_ENDPOINT,
 });
 const uploadFile = (fileName, localFilePath) => __awaiter(void 0, void 0, void 0, function* () {
     // this will synchronously read the entire file into memory
