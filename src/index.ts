@@ -30,7 +30,8 @@ app.post("/deploy", async (req, res) => {
         await uploadFile(file.slice(__dirname.length + 1), file);
     });
 
-    redis.lPush("deployments", id);
+    redis.lPush("uploads", id);
+    redis.hSet("status", id, "uploaded");
     
     res.json(
         { 
