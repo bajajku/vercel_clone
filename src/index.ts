@@ -7,9 +7,11 @@ import { get } from 'http';
 import { getAllFiles } from './file';
 import { uploadFile } from './aws';
 import {createClient} from "redis";
-const redis = createClient();
-redis.connect();
+const publisher = createClient();
+publisher.connect();
 
+const subscriber = createClient();
+subscriber.connect();
 
 const app = express();
 app.use(cors());
@@ -30,8 +32,8 @@ app.post("/deploy", async (req, res) => {
         await uploadFile(file.slice(__dirname.length + 1), file);
     });
 
-    redis.lPush("uploads", id);
-    redis.hSet("status", id, "uploaded");
+    publisher.lPush("uploads", id);
+    publisher.hSet("status", id, "uploaded");
     
     res.json(
         { 
@@ -40,5 +42,14 @@ app.post("/deploy", async (req, res) => {
     );
 
 
+});
+
+app.get("/status", async(req, res) => {
+    const id = req.query.id;
+    const response = await subscriber.hGet("status", id as string);
+
+    res.json({
+        status: response
+    })
 })
 app.listen(3000);
