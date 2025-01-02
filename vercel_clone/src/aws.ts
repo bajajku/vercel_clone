@@ -22,7 +22,7 @@ export const uploadFile = async(fileName: string, localFilePath: string) => {
     const response = await s3.upload({
         Body: fileContent,
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileName,
+        Key: fileName.replace(/\\/g, "/"),
     }).promise();
 
     console.log(response);

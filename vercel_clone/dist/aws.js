@@ -64,7 +64,7 @@ const uploadFile = (fileName, localFilePath) => __awaiter(void 0, void 0, void 0
     const response = yield s3.upload({
         Body: fileContent,
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileName,
+        Key: fileName.replace(/\\/g, "/"),
     }).promise();
     console.log(response);
 });
